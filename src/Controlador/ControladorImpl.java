@@ -2,6 +2,7 @@ package Controlador;
 
 import Modelo.Modelo;
 import Vista.Vista;
+import java.util.ArrayList;
 
 /**
  *
@@ -20,5 +21,10 @@ public class ControladorImpl implements Controlador{
     public void iniciar() {
         Conexion conection = new Conexion();
         conection.realizaConexion();
+    }
+
+    @Override
+    public ArrayList<String> AsignaturasProfesorCon(String dni) {
+        return modelo.AsignaturasProfesorMod(dni);
     }
 }

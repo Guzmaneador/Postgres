@@ -1,5 +1,7 @@
 package Controlador;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Guzman
@@ -7,5 +9,7 @@ package Controlador;
 public interface Controlador {
 
     public void iniciar();
+    
+    public ArrayList<String> AsignaturasProfesorCon(String dni);
 
 }

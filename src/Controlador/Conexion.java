@@ -10,7 +10,7 @@ import java.sql.DriverManager;
 public class Conexion {
 
 
-public void realizaConexion(){
+    public Connection realizaConexion(){
             Connection conn = null;
             String urlDatabase =  "jdbc:postgresql://192.168.1.138:5432/matricula"; 
             try {
@@ -21,5 +21,6 @@ public void realizaConexion(){
             } catch (Exception e) {
                 System.out.println("Ocurrio un error : "+e.getMessage());
             }
-}
+            return conn;
+    }
 }
