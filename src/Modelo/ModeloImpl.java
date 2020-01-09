@@ -28,6 +28,7 @@ public class ModeloImpl implements Modelo{
                                                             "WHERE Rel.id_profesor = "+
                                                                 "(SELECT Pro.id_profesor FROM profesores as Pro "+
                                                                 " WHERE dni = ?)";
+    private final String SQL_NOMBRE_ALUMNOS_ID="SELECT Alu.nombre FROM alumnos as Alu WHERE id_alumno = ?";
     
     Conexion conexion;
     Connection miConexion ;
@@ -90,7 +91,7 @@ public class ModeloImpl implements Modelo{
 
     @Override
     public ArrayList<String> alumnosProfesorMod(String dni) {
-
+        ArrayList<Integer> idAlumnos = new ArrayList<>();
         try {
             resultados.clear();
             miConexion = conexion.realizaConexion();
@@ -98,15 +99,24 @@ public class ModeloImpl implements Modelo{
             miStatement.setString(1, dni);
             ResultSet rs = miStatement.executeQuery();
             while (rs.next()) {
-                analizarStringSQL(rs.getString(1));
-//
-//                String[] sinCorchetes = rs.getString(1).split("\\{");
-//                String[] sinCorchetes2 = sinCorchetes[1].split("\\}");
-
+                idAlumnos =analizarStringSQL(rs.getString(1));
             }
+            
+            for (Integer idAlumno : idAlumnos) {
+                miStatement = miConexion.prepareStatement(SQL_NOMBRE_ALUMNOS_ID);
+                miStatement.setInt(1, idAlumno);
+                ResultSet rse = miStatement.executeQuery();
+                while (rse.next()) {
+                    resultados.add(rse.getString(1));
+                }
+            }
+            miConexion.close();
+            
         } catch (SQLException ex) {
             Logger.getLogger(ModeloImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+
 
         
         return resultados;
@@ -121,8 +131,6 @@ public class ModeloImpl implements Modelo{
         String[] sinCorchetes = cadena.split("\\{");
         String[] sinCorchetes2 = sinCorchetes[1].split("\\}");
         String[] sinComas = sinCorchetes2[0].split(",");
-//        if(ids.size() != 0){
-            //El bucle se encarga de introducir los ids en un array sin que se repitan
             for (String sinComa : sinComas) {
                 for (int i = 0; i < ids.size(); i++) {
                     if(ids.get(i) == Integer.parseInt(sinComa))
@@ -132,7 +140,6 @@ public class ModeloImpl implements Modelo{
                 }
                 
             }
-//        }
         return ids;        
         
     }
