@@ -1,6 +1,7 @@
 package Controlador;
 
 import Modelo.Modelo;
+import Vista.GUI;
 import Vista.Vista;
 import java.util.ArrayList;
 
@@ -19,12 +20,24 @@ public class ControladorImpl implements Controlador{
 
     @Override
     public void iniciar() {
-        Conexion conection = new Conexion();
-        conection.realizaConexion();
+//        Conexion conection = new Conexion();
+//        conection.realizaConexion();
+        GUI gui = new GUI();
+        gui.setVisible(true);
     }
 
     @Override
     public ArrayList<String> AsignaturasProfesorCon(String dni) {
         return modelo.AsignaturasProfesorMod(dni);
+    }
+
+    @Override
+    public ArrayList<String> dniProfesoresCon() {
+        return modelo.dniProfesoresMod();
+    }
+
+    @Override
+    public ArrayList<String> AlumnosProfesorCon(String dni) {
+        return modelo.alumnosProfesorMod(dni);
     }
 }
