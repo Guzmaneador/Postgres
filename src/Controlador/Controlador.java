@@ -16,4 +16,8 @@ public interface Controlador {
 
     public ArrayList<String> AlumnosProfesorCon(String dni);
 
+    public ArrayList<String> siglaAsignaturaCon();
+
+    public ArrayList<String> alumnosAsignaturaCon(String siglas, int curso);
+
 }

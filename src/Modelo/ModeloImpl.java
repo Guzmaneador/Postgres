@@ -23,12 +23,17 @@ public class ModeloImpl implements Modelo{
                                                         "WHERE Pro.dni = ?";
     
     private final String SQL_DNI_PROFESORES ="SELECT Pro.dni FROM profesores AS Pro";
+    private final String SQL_SIGLAS_ASIGNATURA ="SELECT Asi.siglas FROM asignaturas AS Asi";
     
     private final String SQL_ARRAY_IDALUMNOS_PROFESOR="SELECT Rel.id_alumnos FROM relacion as Rel "+
                                                             "WHERE Rel.id_profesor = "+
                                                                 "(SELECT Pro.id_profesor FROM profesores as Pro "+
                                                                 " WHERE dni = ?)";
+    private final String SQL_ARRAY_IDALUMNOS_ASIGNATURAS="SELECT Rel.id_alumnos FROM relacion as Rel "+
+                                                            "WHERE Rel.siglas = ?";
     private final String SQL_NOMBRE_ALUMNOS_ID="SELECT Alu.nombre FROM alumnos as Alu WHERE id_alumno = ?";
+    
+    private final String SQL_NOMBRE_ALUMNOS_ID_CURSO="SELECT Alu.nombre FROM alumnos as Alu WHERE id_alumno = ? AND curso =?";
     
     Conexion conexion;
     Connection miConexion ;
@@ -71,7 +76,7 @@ public class ModeloImpl implements Modelo{
 
     @Override
     public ArrayList<String> dniProfesoresMod() {
-            try {
+        try {
             if(resultados.size() != 0)    
                 resultados.clear();
             
@@ -142,6 +147,59 @@ public class ModeloImpl implements Modelo{
             }
         return ids;        
         
+    }
+
+    @Override
+    public ArrayList<String> siglasAsignaturaMod() {
+        try {
+            if(resultados.size() != 0)    
+                resultados.clear();
+            
+            miConexion = conexion.realizaConexion();
+            miStatement = miConexion.prepareStatement(SQL_SIGLAS_ASIGNATURA);
+            ResultSet rs = miStatement.executeQuery();
+            while (rs.next()) {
+                resultados.add(rs.getString("siglas"));
+            }
+            miConexion.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(ModeloImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return resultados;
+    }
+
+    @Override
+    public ArrayList<String> alumnosAsignaturaMod(String siglas, int curso) {
+         ArrayList<Integer> idAlumnos = new ArrayList<>();
+        try {
+            resultados.clear();
+            miConexion = conexion.realizaConexion();
+            miStatement = miConexion.prepareStatement(SQL_ARRAY_IDALUMNOS_ASIGNATURAS);
+            miStatement.setString(1, siglas);
+            ResultSet rs = miStatement.executeQuery();
+            while (rs.next()) {
+                idAlumnos =analizarStringSQL(rs.getString(1));
+            }
+            
+            for (Integer idAlumno : idAlumnos) {
+                miStatement = miConexion.prepareStatement(SQL_NOMBRE_ALUMNOS_ID);
+                miStatement.setInt(1, idAlumno);
+                ResultSet rse = miStatement.executeQuery();
+                while (rse.next()) {
+                    resultados.add(rse.getString(1));
+                }
+            }
+            miConexion.close();
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(ModeloImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+
+
+        
+        return resultados;
     }
     
     

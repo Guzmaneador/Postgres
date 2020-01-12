@@ -20,13 +20,14 @@ public class GUI extends javax.swing.JFrame {
     Modelo modelo = new ModeloImpl();
     Vista vista = new VistaImpl();
     ArrayList <String> dniProfesores;
+    ArrayList <String> siglasAsignaturas;
     /**
      * Creates new form GUI
      */
     public GUI() {
         initComponents();
         controlador= new ControladorImpl(modelo, vista);
-        obtenerProfesores();
+        obtenerProfesoresAlumnos();
     }
 
     @SuppressWarnings("unchecked")
@@ -59,10 +60,12 @@ public class GUI extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jTabbedPane2 = new javax.swing.JTabbedPane();
         jPanel5 = new javax.swing.JPanel();
+        siglasTF = new javax.swing.JTextField();
+        unoCB = new javax.swing.JCheckBox();
+        dosCB = new javax.swing.JCheckBox();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        alumnosLista = new javax.swing.JTextArea();
         jPanel6 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jComboBox1 = new javax.swing.JComboBox<>();
         asignaturasRB = new javax.swing.JRadioButton();
         alumnosRB = new javax.swing.JRadioButton();
         dniProfesorTF = new javax.swing.JTextField();
@@ -229,39 +232,76 @@ public class GUI extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Estudiantes", jPanel1);
 
+        siglasTF.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                siglasTFKeyPressed(evt);
+            }
+        });
+
+        unoCB.setText("1º Curso");
+        unoCB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                unoCBActionPerformed(evt);
+            }
+        });
+
+        dosCB.setText("2º Curso");
+
+        alumnosLista.setColumns(20);
+        alumnosLista.setRows(5);
+        jScrollPane3.setViewportView(alumnosLista);
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 432, Short.MAX_VALUE)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGap(40, 40, 40)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 349, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(43, Short.MAX_VALUE))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(unoCB)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(dosCB)
+                        .addGap(70, 70, 70))))
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGap(147, 147, 147)
+                .addComponent(siglasTF, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 565, Short.MAX_VALUE)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGap(29, 29, 29)
+                .addComponent(siglasTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(unoCB)
+                    .addComponent(dosCB))
+                .addGap(54, 54, 54)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(214, Short.MAX_VALUE))
         );
 
         jTabbedPane2.addTab("Alumnos", jPanel5);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane1.setViewportView(jTable1);
-
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         buttonGroup1.add(asignaturasRB);
         asignaturasRB.setText("Asignaturas");
+        asignaturasRB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                asignaturasRBActionPerformed(evt);
+            }
+        });
 
         buttonGroup1.add(alumnosRB);
         alumnosRB.setText("Alumnos");
+        alumnosRB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                alumnosRBActionPerformed(evt);
+            }
+        });
 
         dniProfesorTF.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -277,19 +317,16 @@ public class GUI extends javax.swing.JFrame {
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addGap(161, 161, 161)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(dniProfesorTF, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(dniProfesorTF, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addGap(44, 44, 44)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(48, Short.MAX_VALUE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addComponent(asignaturasRB)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -299,8 +336,7 @@ public class GUI extends javax.swing.JFrame {
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(11, 11, 11)
+                .addGap(36, 36, 36)
                 .addComponent(dniProfesorTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -308,9 +344,7 @@ public class GUI extends javax.swing.JFrame {
                     .addComponent(alumnosRB))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 105, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(123, 123, 123))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTabbedPane2.addTab("Profesores", jPanel6);
@@ -357,6 +391,37 @@ public class GUI extends javax.swing.JFrame {
         
     }//GEN-LAST:event_dniProfesorTFKeyPressed
 
+    private void asignaturasRBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_asignaturasRBActionPerformed
+        for (String dniProfesor : dniProfesores) {
+            if (dniProfesor.equals(dniProfesorTF.getText())){
+                listarProfesores(dniProfesor);
+                break;
+            }
+        }
+    }//GEN-LAST:event_asignaturasRBActionPerformed
+
+    private void alumnosRBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alumnosRBActionPerformed
+        for (String dniProfesor : dniProfesores) {
+            if (dniProfesor.equals(dniProfesorTF.getText())){
+                listarProfesores(dniProfesor);
+                break;
+            }
+        }
+    }//GEN-LAST:event_alumnosRBActionPerformed
+
+    private void unoCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_unoCBActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_unoCBActionPerformed
+
+    private void siglasTFKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_siglasTFKeyPressed
+        for (String siglas : siglasAsignaturas) {
+            if (siglas.equals(dniProfesorTF.getText())){
+                listarAlumnos(siglas);
+                break;
+            }
+        }
+    }//GEN-LAST:event_siglasTFKeyPressed
+
 //    /**
 //     * @param args the command line arguments
 //     */
@@ -394,14 +459,15 @@ public class GUI extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField DireccionTF;
+    private javax.swing.JTextArea alumnosLista;
     private javax.swing.JRadioButton alumnosRB;
     private javax.swing.JTextField apellidosTF;
     private javax.swing.JRadioButton asignaturasRB;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JTextField dniProfesorTF;
+    private javax.swing.JCheckBox dosCB;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -416,21 +482,23 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTabbedPane jTabbedPane2;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextArea listaProfes;
     private javax.swing.JTextField nacimientoTF;
     private javax.swing.JTextField nombreTF;
+    private javax.swing.JTextField siglasTF;
     private javax.swing.JTextField telefonoTF;
+    private javax.swing.JCheckBox unoCB;
     // End of variables declaration//GEN-END:variables
-    public void obtenerProfesores(){
+    public void obtenerProfesoresAlumnos(){
       dniProfesores = controlador.dniProfesoresCon();
+      siglasAsignaturas = controlador.siglaAsignaturaCon();
         
     }
     
@@ -450,6 +518,19 @@ public class GUI extends javax.swing.JFrame {
 
         }
                     listaProfes.setText(cadena);
+    }
+    public void mostrarAlumnosEnAsignaturas(){
+        
+    }
+
+    private void listarAlumnos(String siglas) {
+        if (unoCB.isSelected() && dosCB.isSelected()){
+            mostrarResultadoProfesores(controlador.alumnosAsignaturaCon(siglas,0));    
+        }else if(unoCB.isSelected()){
+            mostrarResultadoProfesores(controlador.alumnosAsignaturaCon(siglas,1));    
+        }else if(dosCB.isSelected()){
+            mostrarResultadoProfesores(controlador.alumnosAsignaturaCon(siglas,2));    
+        }
     }
     
 }
