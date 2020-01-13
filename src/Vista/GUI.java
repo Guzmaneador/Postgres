@@ -409,53 +409,20 @@ public class GUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_alumnosRBActionPerformed
 
-    private void unoCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_unoCBActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_unoCBActionPerformed
-
     private void siglasTFKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_siglasTFKeyPressed
         for (String siglas : siglasAsignaturas) {
-            if (siglas.equals(dniProfesorTF.getText())){
+            if (siglas.equals(siglasTF.getText())){
                 listarAlumnos(siglas);
                 break;
             }
         }
     }//GEN-LAST:event_siglasTFKeyPressed
 
-//    /**
-//     * @param args the command line arguments
-//     */
-//    public static void main(String args[]) {
-//        /* Set the Nimbus look and feel */
-//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-//         */
-//        try {
-//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-//                if ("Nimbus".equals(info.getName())) {
-//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-//                    break;
-//                }
-//            }
-//        } catch (ClassNotFoundException ex) {
-//            java.util.logging.Logger.getLogger(GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (InstantiationException ex) {
-//            java.util.logging.Logger.getLogger(GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (IllegalAccessException ex) {
-//            java.util.logging.Logger.getLogger(GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-//            java.util.logging.Logger.getLogger(GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        }
-//        //</editor-fold>
-//
-//        /* Create and display the form */
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                new GUI().setVisible(true);
-//            }
-//        });
-//    }
+    private void unoCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_unoCBActionPerformed
+        listarAlumnos("ds");
+    }//GEN-LAST:event_unoCBActionPerformed
+
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField DireccionTF;
@@ -519,17 +486,27 @@ public class GUI extends javax.swing.JFrame {
         }
                     listaProfes.setText(cadena);
     }
+    public void mostrarResultadoAlumnos(ArrayList<String> resultados){
+        String cadena="";
+        for (String resultado : resultados) {
+            cadena += resultado+"\n";
+
+        }
+                    alumnosLista.setText(cadena);
+    }
     public void mostrarAlumnosEnAsignaturas(){
         
     }
 
     private void listarAlumnos(String siglas) {
-        if (unoCB.isSelected() && dosCB.isSelected()){
-            mostrarResultadoProfesores(controlador.alumnosAsignaturaCon(siglas,0));    
+        if (!unoCB.isSelected() && !dosCB.isSelected()){
+            mostrarResultadoAlumnos(controlador.alumnosAsignaturaCon(siglas,0));    
+        }else if(unoCB.isSelected() && dosCB.isSelected()){
+            mostrarResultadoAlumnos(controlador.cursoAsignaturaCon(0));    
         }else if(unoCB.isSelected()){
-            mostrarResultadoProfesores(controlador.alumnosAsignaturaCon(siglas,1));    
+            mostrarResultadoAlumnos(controlador.cursoAsignaturaCon(1));    
         }else if(dosCB.isSelected()){
-            mostrarResultadoProfesores(controlador.alumnosAsignaturaCon(siglas,2));    
+            mostrarResultadoAlumnos(controlador.cursoAsignaturaCon(2));    
         }
     }
     

@@ -50,4 +50,10 @@ public class ControladorImpl implements Controlador{
     public ArrayList<String> alumnosAsignaturaCon(String siglas, int curso) {
                return modelo.alumnosAsignaturaMod(siglas, curso);
     }
+
+    @Override
+    public ArrayList<String> cursoAsignaturaCon(int i) {
+             return modelo.cursoAsignaturaMod(i);
+
+    }
 }

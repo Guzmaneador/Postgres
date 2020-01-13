@@ -31,9 +31,14 @@ public class ModeloImpl implements Modelo{
                                                                 " WHERE dni = ?)";
     private final String SQL_ARRAY_IDALUMNOS_ASIGNATURAS="SELECT Rel.id_alumnos FROM relacion as Rel "+
                                                             "WHERE Rel.siglas = ?";
+    private final String SQL_ARRAY_IDALUMNOS_CURSO="SELECT Rel.id_alumnos FROM relacion as Rel "+
+                                                    "INNER JOIN asignaturas AS Asi " +
+                                                    "ON Rel.siglas = Asi.siglas " +
+                                                    "WHERE Asi.curso = ?;";
+    
     private final String SQL_NOMBRE_ALUMNOS_ID="SELECT Alu.nombre FROM alumnos as Alu WHERE id_alumno = ?";
     
-    private final String SQL_NOMBRE_ALUMNOS_ID_CURSO="SELECT Alu.nombre FROM alumnos as Alu WHERE id_alumno = ? AND curso =?";
+//    private final String SQL_NOMBRE_ALUMNOS_ID_CURSO="SELECT Alu.nombre FROM alumnos as Alu WHERE id_alumno = ? AND curso =?";
     
     Conexion conexion;
     Connection miConexion ;
@@ -183,8 +188,45 @@ public class ModeloImpl implements Modelo{
             }
             
             for (Integer idAlumno : idAlumnos) {
-                miStatement = miConexion.prepareStatement(SQL_NOMBRE_ALUMNOS_ID);
-                miStatement.setInt(1, idAlumno);
+
+                    miStatement = miConexion.prepareStatement(SQL_NOMBRE_ALUMNOS_ID);
+                    miStatement.setInt(1, idAlumno);
+                
+                ResultSet rse = miStatement.executeQuery();
+                while (rse.next()) {
+                    resultados.add(rse.getString(1));
+                }
+            }
+            miConexion.close();
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(ModeloImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+
+
+        
+        return resultados;
+    }
+
+    @Override
+    public ArrayList<String> cursoAsignaturaMod(int i) {
+        ArrayList<Integer> idAlumnos = new ArrayList<>();
+        try {
+            resultados.clear();
+            miConexion = conexion.realizaConexion();
+            miStatement = miConexion.prepareStatement(SQL_ARRAY_IDALUMNOS_CURSO);
+            miStatement.setInt(1, i);
+            ResultSet rs = miStatement.executeQuery();
+            while (rs.next()) {
+                idAlumnos =analizarStringSQL(rs.getString(1));
+            }
+            
+            for (Integer idAlumno : idAlumnos) {
+
+                    miStatement = miConexion.prepareStatement(SQL_NOMBRE_ALUMNOS_ID);
+                    miStatement.setInt(1, idAlumno);
+                
                 ResultSet rse = miStatement.executeQuery();
                 while (rse.next()) {
                     resultados.add(rse.getString(1));
