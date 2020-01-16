@@ -80,11 +80,14 @@ public class GUI extends javax.swing.JFrame {
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos Alumno"));
 
+        nombreTF.setText("Ej:Guzman");
         nombreTF.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 nombreTFActionPerformed(evt);
             }
         });
+
+        apellidosTF.setText("Ej:Martinez");
 
         nacimientoTF.setText("dd-mm-yyyy");
 
@@ -246,6 +249,11 @@ public class GUI extends javax.swing.JFrame {
         });
 
         dosCB.setText("2º Curso");
+        dosCB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dosCBActionPerformed(evt);
+            }
+        });
 
         alumnosLista.setColumns(20);
         alumnosLista.setRows(5);
@@ -421,6 +429,10 @@ public class GUI extends javax.swing.JFrame {
     private void unoCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_unoCBActionPerformed
         listarAlumnos("ds");
     }//GEN-LAST:event_unoCBActionPerformed
+
+    private void dosCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dosCBActionPerformed
+         listarAlumnos("ds");   
+    }//GEN-LAST:event_dosCBActionPerformed
 
 
 

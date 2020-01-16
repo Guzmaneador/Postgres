@@ -239,7 +239,6 @@ public class ModeloImpl implements Modelo{
         }
         
 
-
         
         return resultados;
     }
