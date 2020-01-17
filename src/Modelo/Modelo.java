@@ -18,5 +18,7 @@ public interface Modelo {
     public ArrayList<String> alumnosAsignaturaMod(String siglas, int curso);
 
     public ArrayList<String> cursoAsignaturaMod(int i);
+
+    public ArrayList<String> dniAlumnosMod();
     
 }

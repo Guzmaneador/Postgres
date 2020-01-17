@@ -23,6 +23,7 @@ public class ModeloImpl implements Modelo{
                                                         "WHERE Pro.dni = ?";
     
     private final String SQL_DNI_PROFESORES ="SELECT Pro.dni FROM profesores AS Pro";
+    private final String SQL_DNI_ALUMNOS ="SELECT Alu.dni FROM alumnos AS Alu";
     private final String SQL_SIGLAS_ASIGNATURA ="SELECT Asi.siglas FROM asignaturas AS Asi";
     
     private final String SQL_ARRAY_IDALUMNOS_PROFESOR="SELECT Rel.id_alumnos FROM relacion as Rel "+
@@ -43,12 +44,12 @@ public class ModeloImpl implements Modelo{
     Conexion conexion;
     Connection miConexion ;
     PreparedStatement miStatement;
-    ArrayList<String> resultados;
+//    ArrayList<String> resultados;
     
 
     public ModeloImpl() {
         conexion = new Conexion();
-        resultados = new ArrayList<String>();
+//        ArrayList<String> resultados = new ArrayList<String>();
         
         
     }
@@ -61,8 +62,9 @@ public class ModeloImpl implements Modelo{
     
     @Override
     public ArrayList<String> AsignaturasProfesorMod(String dni) {
+        ArrayList<String> resultados = new ArrayList<String>();
         try {
-            resultados.clear();
+
             miConexion = conexion.realizaConexion();
             miStatement = miConexion.prepareStatement(SQL_ASIGNATURAS_PROFESORES);
             miStatement.setString(1, dni);
@@ -81,6 +83,7 @@ public class ModeloImpl implements Modelo{
 
     @Override
     public ArrayList<String> dniProfesoresMod() {
+        ArrayList<String> resultados = new ArrayList<String>();
         try {
             if(resultados.size() != 0)    
                 resultados.clear();
@@ -102,8 +105,9 @@ public class ModeloImpl implements Modelo{
     @Override
     public ArrayList<String> alumnosProfesorMod(String dni) {
         ArrayList<Integer> idAlumnos = new ArrayList<>();
+        ArrayList<String> resultados = new ArrayList<String>();
         try {
-            resultados.clear();
+
             miConexion = conexion.realizaConexion();
             miStatement = miConexion.prepareStatement(SQL_ARRAY_IDALUMNOS_PROFESOR);
             miStatement.setString(1, dni);
@@ -156,6 +160,7 @@ public class ModeloImpl implements Modelo{
 
     @Override
     public ArrayList<String> siglasAsignaturaMod() {
+        ArrayList<String> resultados = new ArrayList<String>();
         try {
             if(resultados.size() != 0)    
                 resultados.clear();
@@ -176,9 +181,10 @@ public class ModeloImpl implements Modelo{
 
     @Override
     public ArrayList<String> alumnosAsignaturaMod(String siglas, int curso) {
+         ArrayList<String> resultados = new ArrayList<String>();
          ArrayList<Integer> idAlumnos = new ArrayList<>();
         try {
-            resultados.clear();
+
             miConexion = conexion.realizaConexion();
             miStatement = miConexion.prepareStatement(SQL_ARRAY_IDALUMNOS_ASIGNATURAS);
             miStatement.setString(1, siglas);
@@ -211,9 +217,10 @@ public class ModeloImpl implements Modelo{
 
     @Override
     public ArrayList<String> cursoAsignaturaMod(int i) {
+        ArrayList<String> resultados = new ArrayList<String>();
         ArrayList<Integer> idAlumnos = new ArrayList<>();
         try {
-            resultados.clear();
+
             miConexion = conexion.realizaConexion();
             miStatement = miConexion.prepareStatement(SQL_ARRAY_IDALUMNOS_CURSO);
             miStatement.setInt(1, i);
@@ -239,6 +246,30 @@ public class ModeloImpl implements Modelo{
         }
         
 
+        
+        return resultados;
+    }
+
+    
+    
+    
+    @Override
+    public ArrayList<String> dniAlumnosMod() {
+        ArrayList<String> resultados = new ArrayList<String>();
+        try {
+            if(resultados.size() != 0)    
+                resultados.clear();
+            
+            miConexion = conexion.realizaConexion();
+            miStatement = miConexion.prepareStatement(SQL_DNI_ALUMNOS);
+            ResultSet rs = miStatement.executeQuery();
+            while (rs.next()) {
+                resultados.add(rs.getString("dni"));
+            }
+            miConexion.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(ModeloImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         return resultados;
     }

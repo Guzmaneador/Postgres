@@ -1,5 +1,6 @@
 package Controlador;
 
+import Modelo.AlumnoVO;
 import java.util.ArrayList;
 
 /**
@@ -21,5 +22,9 @@ public interface Controlador {
     public ArrayList<String> alumnosAsignaturaCon(String siglas, int curso);
 
     public ArrayList<String> cursoAsignaturaCon(int i);
+
+    public ArrayList<String> dniAlumnosCon();
+
+    public AlumnoVO obtenerDatosAlumnoCon(String dni);
 
 }

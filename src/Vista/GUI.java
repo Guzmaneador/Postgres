@@ -7,9 +7,13 @@ package Vista;
 
 import Controlador.Controlador;
 import Controlador.ControladorImpl;
+import Modelo.AlumnoVO;
 import Modelo.Modelo;
 import Modelo.ModeloImpl;
+import java.awt.FlowLayout;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import javax.swing.JCheckBox;
 
 /**
  *
@@ -20,14 +24,21 @@ public class GUI extends javax.swing.JFrame {
     Modelo modelo = new ModeloImpl();
     Vista vista = new VistaImpl();
     ArrayList <String> dniProfesores;
+    ArrayList <String> dniAlumnos;
     ArrayList <String> siglasAsignaturas;
+    ArrayList <JCheckBox> siglasCB;
     /**
      * Creates new form GUI
      */
     public GUI() {
         initComponents();
         controlador= new ControladorImpl(modelo, vista);
+        dniAlumnos = new ArrayList<> ();
+        dniProfesores= new ArrayList<> ();
+        siglasAsignaturas = new ArrayList<> ();
+        siglasCB= new ArrayList<> ();
         obtenerProfesoresAlumnos();
+
     }
 
     @SuppressWarnings("unchecked")
@@ -38,7 +49,7 @@ public class GUI extends javax.swing.JFrame {
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        dniAlumnoTF = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         nombreTF = new javax.swing.JTextField();
@@ -46,7 +57,7 @@ public class GUI extends javax.swing.JFrame {
         nacimientoTF = new javax.swing.JTextField();
         telefonoTF = new javax.swing.JTextField();
         DireccionTF = new javax.swing.JTextField();
-        jPanel4 = new javax.swing.JPanel();
+        siglasPanel = new javax.swing.JPanel();
         jButton2 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -76,6 +87,17 @@ public class GUI extends javax.swing.JFrame {
 
         jLabel1.setText("D.N.I.");
 
+        dniAlumnoTF.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dniAlumnoTFActionPerformed(evt);
+            }
+        });
+        dniAlumnoTF.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                dniAlumnoTFKeyPressed(evt);
+            }
+        });
+
         jButton1.setText("jButton1");
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos Alumno"));
@@ -95,16 +117,16 @@ public class GUI extends javax.swing.JFrame {
 
         DireccionTF.setText("Municipio");
 
-        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Asignaturas"));
+        siglasPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Asignaturas"));
 
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout siglasPanelLayout = new javax.swing.GroupLayout(siglasPanel);
+        siglasPanel.setLayout(siglasPanelLayout);
+        siglasPanelLayout.setHorizontalGroup(
+            siglasPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 0, Short.MAX_VALUE)
         );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        siglasPanelLayout.setVerticalGroup(
+            siglasPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 80, Short.MAX_VALUE)
         );
 
@@ -134,7 +156,7 @@ public class GUI extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(siglasPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(124, 124, 124)
@@ -193,7 +215,7 @@ public class GUI extends javax.swing.JFrame {
                     .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8))
                 .addGap(18, 18, 18)
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(siglasPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jButton2)
                 .addContainerGap(18, Short.MAX_VALUE))
@@ -211,7 +233,7 @@ public class GUI extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(dniAlumnoTF, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jButton1)
                         .addGap(59, 59, 59))
@@ -226,7 +248,7 @@ public class GUI extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(dniAlumnoTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1))
                 .addGap(18, 18, 18)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -434,6 +456,15 @@ public class GUI extends javax.swing.JFrame {
          listarAlumnos("ds");   
     }//GEN-LAST:event_dosCBActionPerformed
 
+    private void dniAlumnoTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dniAlumnoTFActionPerformed
+                cargarDatosAlumno(dniAlumnoTF.getText());
+
+    }//GEN-LAST:event_dniAlumnoTFActionPerformed
+
+    private void dniAlumnoTFKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_dniAlumnoTFKeyPressed
+        cargarDatosAlumno(dniAlumnoTF.getText());
+    }//GEN-LAST:event_dniAlumnoTFKeyPressed
+
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -443,6 +474,7 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JTextField apellidosTF;
     private javax.swing.JRadioButton asignaturasRB;
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JTextField dniAlumnoTF;
     private javax.swing.JTextField dniProfesorTF;
     private javax.swing.JCheckBox dosCB;
     private javax.swing.JButton jButton1;
@@ -458,27 +490,27 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTabbedPane jTabbedPane2;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextArea listaProfes;
     private javax.swing.JTextField nacimientoTF;
     private javax.swing.JTextField nombreTF;
+    private javax.swing.JPanel siglasPanel;
     private javax.swing.JTextField siglasTF;
     private javax.swing.JTextField telefonoTF;
     private javax.swing.JCheckBox unoCB;
     // End of variables declaration//GEN-END:variables
     public void obtenerProfesoresAlumnos(){
       dniProfesores = controlador.dniProfesoresCon();
+      dniAlumnos =controlador.dniAlumnosCon();
       siglasAsignaturas = controlador.siglaAsignaturaCon();
-        
+      mostrarAsignatura();
     }
     
     public void listarProfesores(String dni){
@@ -519,6 +551,41 @@ public class GUI extends javax.swing.JFrame {
             mostrarResultadoAlumnos(controlador.cursoAsignaturaCon(1));    
         }else if(dosCB.isSelected()){
             mostrarResultadoAlumnos(controlador.cursoAsignaturaCon(2));    
+        }
+    }
+    public void cargarDatosAlumno(String dni){
+        AlumnoVO alumno = new AlumnoVO();
+        for (String dniAlu : dniAlumnos) {
+            if(dni.equals(dniAlu)){
+                alumno = controlador.obtenerDatosAlumnoCon(dni);
+                mostratDatosAlumno(alumno);
+                break;
+            }
+        }
+        
+    }
+
+    private void mostratDatosAlumno(AlumnoVO alumno) {
+        nombreTF.setText(alumno.getNombre());
+        apellidosTF.setText(alumno.getApellido());
+        
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+        String fechaComoCadena = sdf.format(alumno.getFechaNacimiento());
+        nacimientoTF.setText(fechaComoCadena);
+        
+    }
+    
+    public void mostrarAsignatura(){
+        for (String siglas : siglasAsignaturas) {
+            siglasCB.add(new JCheckBox(siglas));
+            
+        }
+        siglasPanel.setLayout(new FlowLayout());
+        for (JCheckBox CB : siglasCB) {
+            
+            siglasPanel.add(CB);
+            CB.setVisible(true);
+            this.pack();
         }
     }
     

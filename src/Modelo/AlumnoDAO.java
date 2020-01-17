@@ -23,7 +23,7 @@ public class AlumnoDAO {
                                                                             "VALUES (?,?,?,?,?,"+
                                                                             "(?,?,?,?))";
     
-    private final String SQL_ASIGNATURAS_ALUMNO = "SELECT Rel.siglas, Rel.id_alumnos FROM relacions AS Rel";
+    private final String SQL_ASIGNATURAS_ALUMNO = "SELECT Rel.siglas, Rel.id_alumnos FROM relacion AS Rel";
     
     Conexion conexion;
     Connection miConexion ;
@@ -50,9 +50,10 @@ public class AlumnoDAO {
                 alumno.setNombre(rs.getString("nombre"));
                 alumno.setApellido(rs.getString("apellidos"));
                 alumno.setFechaNacimiento(rs.getDate("fecha_nacimiento"));
-                alumno.setTelefono((ArrayList<String>) rs.getArray("telefonos"));    
+//                alumno.setTelefono((ArrayList<String>) rs.getArray("telefonos"));    
             }
             miConexion.close();
+            asignaturasMatriculado(alumno);
         } catch (SQLException ex) {
             Logger.getLogger(ModeloImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -114,7 +115,7 @@ public class AlumnoDAO {
         ArrayList<String> asignaturasMatriculado=new ArrayList<>();
             try {
             miConexion = conexion.realizaConexion();
-            miStatement = miConexion.prepareStatement(SQL_READ_ALUMNO);
+            miStatement = miConexion.prepareStatement(SQL_ASIGNATURAS_ALUMNO);
             ResultSet rs = miStatement.executeQuery();
             while (rs.next()) {
                 String[] idsAlumnos=obtenerIdsAlumnos(rs.getString("id_alumnos"));
