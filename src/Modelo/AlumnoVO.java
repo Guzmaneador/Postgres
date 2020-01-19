@@ -13,7 +13,7 @@ public class AlumnoVO {
     private String nombre;
     private String apellido;
     private Date fechaNacimiento;
-    private ArrayList<String> telefono;
+    private String telefono;
     private int idAlumno;
     private String municipio;
     private String calle;
@@ -25,7 +25,7 @@ public class AlumnoVO {
     public AlumnoVO() {
     }
 
-    public AlumnoVO(String dni, String nombre, String apellido, Date fechaNacimiento, ArrayList<String> telefono, int idAlumno, String municipio, String calle, int numero, int codigoPostal,ArrayList<String> asignaturasMatriculado) {
+    public AlumnoVO(String dni, String nombre, String apellido, Date fechaNacimiento, String telefono, int idAlumno, String municipio, String calle, int numero, int codigoPostal,ArrayList<String> asignaturasMatriculado) {
         this.dni = dni;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -71,11 +71,11 @@ public class AlumnoVO {
         this.fechaNacimiento = fechaNacimiento;
     }
 
-    public ArrayList<String> getTelefono() {
+    public String getTelefono() {
         return telefono;
     }
 
-    public void setTelefono(ArrayList<String> telefono) {
+    public void setTelefono(String telefono) {
         this.telefono = telefono;
     }
 

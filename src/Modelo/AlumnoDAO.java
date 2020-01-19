@@ -50,7 +50,13 @@ public class AlumnoDAO {
                 alumno.setNombre(rs.getString("nombre"));
                 alumno.setApellido(rs.getString("apellidos"));
                 alumno.setFechaNacimiento(rs.getDate("fecha_nacimiento"));
-//                alumno.setTelefono((ArrayList<String>) rs.getArray("telefonos"));    
+                
+                String[] telefonos = rs.getString("telefonos").split("\\{|\\}");
+                alumno.setTelefono(telefonos[1]);
+                
+                obtenerDireccion(rs.getString("direccion"), alumno);
+                System.out.println("");
+                
             }
             miConexion.close();
             asignaturasMatriculado(alumno);
@@ -71,7 +77,7 @@ public class AlumnoDAO {
             miStatement.setString(1, alumno.getNombre());
             miStatement.setString(2, alumno.getApellido());           
             miStatement.setDate(3, alumno.getFechaNacimiento());           
-            miStatement.setArray(4, (Array) alumno.getTelefono());
+            miStatement.setString(4,alumno.getTelefono());
             //WHERE//
             miStatement.setString(5, alumno.getDni());           
             miStatement.executeUpdate();
@@ -92,7 +98,7 @@ public class AlumnoDAO {
             miStatement.setString(2, alumno.getNombre());
             miStatement.setString(3, alumno.getApellido());           
             miStatement.setDate(4, alumno.getFechaNacimiento());           
-            miStatement.setArray(5, (Array) alumno.getTelefono());
+            miStatement.setString(5,alumno.getTelefono());
             miStatement.setString(6, alumno.getMunicipio());
             miStatement.setString(7, alumno.getCalle());
             miStatement.setInt(8, alumno.getNumero());
@@ -145,9 +151,8 @@ public class AlumnoDAO {
             
     public void obtenerDireccion(String cadena,AlumnoVO alumno){
         
-        String[] sinCorchetes = cadena.split("\\{");
-        String[] sinCorchetes2 = sinCorchetes[1].split("\\}");
-        String[] sinComas = sinCorchetes2[0].split(",");
+        String[] sinParentesis = cadena.split("\\(|\\)");
+        String[] sinComas = sinParentesis[1].split(",");
         
         String[] municipio = sinComas[0].split("\"");
         alumno.setMunicipio(municipio[1]);
@@ -155,9 +160,9 @@ public class AlumnoDAO {
         String[] calle = sinComas[1].split("\"");
         alumno.setCalle(calle[1]);
         
-        alumno.setNumero(Integer.parseInt(calle[2]));
+        alumno.setNumero(Integer.parseInt(sinComas[2]));
         
-        alumno.setCodigoPostal(Integer.parseInt(calle[3]));
+        alumno.setCodigoPostal(Integer.parseInt(sinComas[3]));
         
         
     }
