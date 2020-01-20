@@ -11,8 +11,12 @@ import Modelo.AlumnoVO;
 import Modelo.Modelo;
 import Modelo.ModeloImpl;
 import java.awt.FlowLayout;
+import java.sql.Date;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.scene.control.CheckBox;
 import javax.swing.JCheckBox;
 
@@ -38,7 +42,7 @@ public class GUI extends javax.swing.JFrame {
         dniProfesores= new ArrayList<> ();
         siglasAsignaturas = new ArrayList<> ();
         siglasCB= new ArrayList<> ();
-        obtenerProfesoresAlumnos();
+        obtenerDnisYAsignaturas();
 
     }
 
@@ -56,7 +60,7 @@ public class GUI extends javax.swing.JFrame {
         apellidosTF = new javax.swing.JTextField();
         nacimientoTF = new javax.swing.JTextField();
         telefonoTF = new javax.swing.JTextField();
-        direccionTF = new javax.swing.JTextField();
+        municipioTF = new javax.swing.JTextField();
         siglasPanel = new javax.swing.JPanel();
         jButton2 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
@@ -115,7 +119,7 @@ public class GUI extends javax.swing.JFrame {
 
         telefonoTF.setText("Nº1, Nº2..");
 
-        direccionTF.setText("Municipio");
+        municipioTF.setText("Municipio");
 
         siglasPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Asignaturas"));
 
@@ -184,7 +188,7 @@ public class GUI extends javax.swing.JFrame {
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(portalTF)
                             .addComponent(calleTF)
-                            .addComponent(direccionTF)
+                            .addComponent(municipioTF)
                             .addComponent(telefonoTF)
                             .addComponent(nacimientoTF)
                             .addComponent(apellidosTF)
@@ -217,7 +221,7 @@ public class GUI extends javax.swing.JFrame {
                     .addComponent(jLabel5))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(direccionTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(municipioTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -487,7 +491,6 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JRadioButton asignaturasRB;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JTextField calleTF;
-    private javax.swing.JTextField direccionTF;
     private javax.swing.JTextField dniAlumnoTF;
     private javax.swing.JTextField dniProfesorTF;
     private javax.swing.JCheckBox dosCB;
@@ -511,6 +514,7 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JTextArea listaProfes;
+    private javax.swing.JTextField municipioTF;
     private javax.swing.JTextField nacimientoTF;
     private javax.swing.JTextField nombreTF;
     private javax.swing.JTextField portalTF;
@@ -520,7 +524,7 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JTextField telefonoTF;
     private javax.swing.JCheckBox unoCB;
     // End of variables declaration//GEN-END:variables
-    public void obtenerProfesoresAlumnos(){
+    public void obtenerDnisYAsignaturas(){
       dniProfesores = controlador.dniProfesoresCon();
       dniAlumnos =controlador.dniAlumnosCon();
       siglasAsignaturas = controlador.siglaAsignaturaCon();
@@ -588,11 +592,16 @@ public class GUI extends javax.swing.JFrame {
         nombreTF.setText(alumno.getNombre());
         apellidosTF.setText(alumno.getApellido());
         
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-        String fechaComoCadena = sdf.format(alumno.getFechaNacimiento());
+        SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyy");
+        String fechaComoCadena = formatoFecha.format(alumno.getFechaNacimiento());
         nacimientoTF.setText(fechaComoCadena);
         
-        
+        telefonoTF.setText(alumno.getTelefono());
+        municipioTF.setText(alumno.getMunicipio());
+        calleTF.setText(alumno.getCalle());
+        portalTF.setText(String.valueOf(alumno.getNumero()));
+        postalTF.setText(String.valueOf(alumno.getCodigoPostal()));
+ 
         
         for (JCheckBox siglas : siglasCB) {
             for (String asignatura: alumno.getAsignaturasMatriculado()) {
@@ -604,6 +613,30 @@ public class GUI extends javax.swing.JFrame {
                 }
             }
         }
+        
+    }
+    
+    public void recogerDatosFormulario(){
+        AlumnoVO alumno = new AlumnoVO();
+        alumno.setNombre(nombreTF.getText());
+        alumno.setApellido(apellidosTF.getText());
+        alumno.setTelefono(telefonoTF.getText());
+        
+        SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy/MM/dd");
+        try {
+            Date fecha=(Date) formatoFecha.parse(nacimientoTF.getText());
+            alumno.setFechaNacimiento(fecha);
+        } catch (ParseException ex) {
+            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        alumno.setTelefono(telefonoTF.getText());
+        alumno.setMunicipio(municipioTF.getText());
+        alumno.setCalle(calleTF.getText());
+        alumno.setNumero(Integer.parseInt(portalTF.getText()));
+        alumno.setCodigoPostal(Integer.parseInt(postalTF.getText()));
+        
+        
         
     }
     

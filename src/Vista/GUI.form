@@ -141,7 +141,7 @@
                                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                       <Component id="portalTF" max="32767" attributes="0"/>
                                       <Component id="calleTF" alignment="0" max="32767" attributes="0"/>
-                                      <Component id="direccionTF" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="municipioTF" alignment="0" max="32767" attributes="0"/>
                                       <Component id="telefonoTF" alignment="0" max="32767" attributes="0"/>
                                       <Component id="nacimientoTF" alignment="0" max="32767" attributes="0"/>
                                       <Component id="apellidosTF" alignment="0" max="32767" attributes="0"/>
@@ -184,7 +184,7 @@
                           </Group>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="direccionTF" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="municipioTF" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -235,7 +235,7 @@
                     <Property name="text" type="java.lang.String" value="N&#xba;1, N&#xba;2.."/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JTextField" name="direccionTF">
+                <Component class="javax.swing.JTextField" name="municipioTF">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Municipio"/>
                   </Properties>
