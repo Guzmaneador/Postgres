@@ -86,12 +86,14 @@ public class GUI extends javax.swing.JFrame {
         dosCB = new javax.swing.JCheckBox();
         jScrollPane3 = new javax.swing.JScrollPane();
         alumnosLista = new javax.swing.JTextArea();
+        siglasJ = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
         asignaturasRB = new javax.swing.JRadioButton();
         alumnosRB = new javax.swing.JRadioButton();
         dniProfesorTF = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
         listaProfes = new javax.swing.JTextArea();
+        jLabel11 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -318,6 +320,8 @@ public class GUI extends javax.swing.JFrame {
         alumnosLista.setRows(5);
         jScrollPane3.setViewportView(alumnosLista);
 
+        siglasJ.setText("SIGLAS ASIGNATURA");
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
@@ -334,14 +338,21 @@ public class GUI extends javax.swing.JFrame {
                         .addComponent(dosCB)
                         .addGap(70, 70, 70))))
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(147, 147, 147)
-                .addComponent(siglasTF, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(147, 147, 147)
+                        .addComponent(siglasTF, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(135, 135, 135)
+                        .addComponent(siglasJ)))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(29, 29, 29)
+                .addGap(8, 8, 8)
+                .addComponent(siglasJ)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(siglasTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -380,30 +391,36 @@ public class GUI extends javax.swing.JFrame {
         listaProfes.setRows(5);
         jScrollPane2.setViewportView(listaProfes);
 
+        jLabel11.setText("DNI PROFESOR");
+
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGap(161, 161, 161)
-                .addComponent(dniProfesorTF, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel6Layout.createSequentialGroup()
                 .addGap(44, 44, 44)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap(48, Short.MAX_VALUE))
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addComponent(asignaturasRB)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(alumnosRB)
                         .addGap(69, 69, 69))))
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addGap(161, 161, 161)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel11)
+                    .addComponent(dniProfesorTF, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGap(36, 36, 36)
+                .addGap(15, 15, 15)
+                .addComponent(jLabel11)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(dniProfesorTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -487,10 +504,24 @@ public class GUI extends javax.swing.JFrame {
 
     private void unoCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_unoCBActionPerformed
         listarAlumnos("ds");
+        if(unoCB.isSelected() || dosCB.isSelected()){
+            siglasTF.setVisible(false);
+            siglasJ.setVisible(false);
+        }else{
+            siglasTF.setVisible(true);
+            siglasJ.setVisible(true);
+        }
     }//GEN-LAST:event_unoCBActionPerformed
 
     private void dosCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dosCBActionPerformed
-         listarAlumnos("ds");   
+         listarAlumnos("ds");
+        if(unoCB.isSelected() || dosCB.isSelected()){
+            siglasTF.setVisible(false);
+            siglasJ.setVisible(false);
+        }else{
+            siglasTF.setVisible(true);
+            siglasJ.setVisible(true);
+        }
     }//GEN-LAST:event_dosCBActionPerformed
 
     private void dniAlumnoTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dniAlumnoTFActionPerformed
@@ -527,6 +558,7 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JCheckBox dosCB;
     private javax.swing.JButton insertarButtom;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -550,6 +582,7 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JTextField nombreTF;
     private javax.swing.JTextField portalTF;
     private javax.swing.JTextField postalTF;
+    private javax.swing.JLabel siglasJ;
     private javax.swing.JPanel siglasPanel;
     private javax.swing.JTextField siglasTF;
     private javax.swing.JTextField telefonoTF;

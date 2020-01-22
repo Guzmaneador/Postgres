@@ -25,6 +25,10 @@ public class AlumnoDAO {
     
     private final String SQL_ASIGNATURAS_ALUMNO = "SELECT Rel.siglas, Rel.id_alumnos FROM relacion AS Rel";
     
+    private final String SQL_NUMERO_ALUMNOS_ASIGNATURA="SELECT array_length(id_alumnos, 1) FROM relacion WHERE siglas = ?";
+    private final String SQL_MATRICULAR_ALUMNO ="UPDATE relacion SET id_alumnos[?] = ?  WHERE siglas = ?";
+    private final String SQL_ID_ALUMNO ="SELECT id_alumno FROM alumnos WHERE dni = ?";
+    
     Conexion conexion;
     Connection miConexion ;
     PreparedStatement miStatement;
@@ -88,6 +92,7 @@ public class AlumnoDAO {
         } catch (SQLException ex) {
             Logger.getLogger(ModeloImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
+        matricularAlumno(alumno);
         
         
     }
@@ -113,6 +118,7 @@ public class AlumnoDAO {
         } catch (SQLException ex) {
             Logger.getLogger(ModeloImpl.class.getName()).log(Level.SEVERE, null, ex);
         }      
+        matricularAlumno(alumno);
     }
     
     
@@ -169,6 +175,53 @@ public class AlumnoDAO {
         
         alumno.setCodigoPostal(Integer.parseInt(sinComas[3]));
         
+        
+    }
+    
+    public void matricularAlumno(AlumnoVO alumno){
+        try {            
+                miConexion = conexion.realizaConexion();
+                miStatement = miConexion.prepareStatement(SQL_ID_ALUMNO);
+                miStatement.setString(1, alumno.getDni());           
+                ResultSet rs0 =miStatement.executeQuery();
+                while (rs0.next()) {
+                    alumno.setIdAlumno(rs0.getInt("id_alumno"));
+  
+                }
+                miConexion.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(ModeloImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        
+        
+        
+        ArrayList<String> asignaturasMatricula = alumno.getAsignaturasMatriculado();
+        int tamañoArray=0;
+        for (String asignatura : asignaturasMatricula) {
+             try {            
+                miConexion = conexion.realizaConexion();
+                miStatement = miConexion.prepareStatement(SQL_NUMERO_ALUMNOS_ASIGNATURA);
+                miStatement.setString(1, asignatura);           
+                ResultSet rs =miStatement.executeQuery();
+                while (rs.next()) {
+                    tamañoArray =rs.getInt("array_length");
+  
+                }
+                miConexion.close();
+                //-------
+                miConexion = conexion.realizaConexion();
+                miStatement = miConexion.prepareStatement(SQL_MATRICULAR_ALUMNO);
+                miStatement.setInt(1, tamañoArray+1);           
+                miStatement.setInt(2, alumno.getIdAlumno());           
+                miStatement.setString(3, asignatura);           
+                miStatement.executeUpdate();
+                miConexion.close();
+                
+            } catch (SQLException ex) {
+                Logger.getLogger(ModeloImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }      
+        }
+        System.out.println("");
         
     }
     
