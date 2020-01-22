@@ -27,4 +27,8 @@ public interface Controlador {
 
     public AlumnoVO obtenerDatosAlumnoCon(String dni);
 
+    public void updateAlumnoCon(AlumnoVO recogerDatosFormulario);
+
+    public void createAlumnoCon(AlumnoVO alumno);
+
 }

@@ -153,8 +153,10 @@
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="-2" pref="129" max="-2" attributes="0"/>
-                          <Component id="jButton2" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
+                          <Component id="insertarButtom" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
+                          <Component id="actualizarButtom" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="32767" attributes="0"/>
                       </Group>
                   </Group>
@@ -205,7 +207,10 @@
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="siglasPanel" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
-                          <Component id="jButton2" min="-2" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="actualizarButtom" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="insertarButtom" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
                           <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -262,10 +267,13 @@
                     </DimensionLayout>
                   </Layout>
                 </Container>
-                <Component class="javax.swing.JButton" name="jButton2">
+                <Component class="javax.swing.JButton" name="actualizarButtom">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Actualizar"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="actualizarButtomActionPerformed"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel2">
                   <Properties>
@@ -321,6 +329,14 @@
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Portal:"/>
                   </Properties>
+                </Component>
+                <Component class="javax.swing.JButton" name="insertarButtom">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Insertar Alumno"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="insertarButtomActionPerformed"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>

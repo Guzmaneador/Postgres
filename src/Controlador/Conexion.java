@@ -12,7 +12,7 @@ public class Conexion {
 
     public Connection realizaConexion(){
             Connection conn = null;
-            String urlDatabase =  "jdbc:postgresql://192.168.1.146:5432/matricula"; 
+            String urlDatabase =  "jdbc:postgresql://192.168.1.136:5432/matricula"; 
             try {
                 Class.forName("org.postgresql.Driver");
                 conn = DriverManager.getConnection(urlDatabase,  "munchi", "linux");

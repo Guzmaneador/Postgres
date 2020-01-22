@@ -19,7 +19,7 @@ public class AlumnoDAO {
        
     private final String SQL_UPDATE_ALUMNO = "UPDATE alumnos SET nombre = ?, apellidos = ?, fecha_nacimiento = ?, telefonos = ? WHERE dni = ?";
     
-    private final String SQL_CREATE_ALUMNO = "INSERT INTO alumnos VALUES(dni, nombre, apellidos, fecha_nacimiento, telefonos,direccion) "+
+    private final String SQL_CREATE_ALUMNO = "INSERT INTO alumnos (dni, nombre, apellidos, fecha_nacimiento, telefonos,direccion) "+
                                                                             "VALUES (?,?,?,?,?,"+
                                                                             "(?,?,?,?))";
     
@@ -76,8 +76,10 @@ public class AlumnoDAO {
             miStatement = miConexion.prepareStatement(SQL_UPDATE_ALUMNO);
             miStatement.setString(1, alumno.getNombre());
             miStatement.setString(2, alumno.getApellido());           
-            miStatement.setDate(3, alumno.getFechaNacimiento());           
-            miStatement.setString(4,alumno.getTelefono());
+            miStatement.setDate(3, alumno.getFechaNacimiento());
+            
+            String[] telefonos = alumno.getTelefono().split(",");
+            miStatement.setObject(4,telefonos);
             //WHERE//
             miStatement.setString(5, alumno.getDni());           
             miStatement.executeUpdate();
@@ -97,13 +99,16 @@ public class AlumnoDAO {
             miStatement.setString(1, alumno.getDni());           
             miStatement.setString(2, alumno.getNombre());
             miStatement.setString(3, alumno.getApellido());           
-            miStatement.setDate(4, alumno.getFechaNacimiento());           
-            miStatement.setString(5,alumno.getTelefono());
+            miStatement.setDate(4, alumno.getFechaNacimiento());  
+            
+            String[] telefonos = alumno.getTelefono().split(",");
+            miStatement.setObject(5,telefonos);
+            
             miStatement.setString(6, alumno.getMunicipio());
             miStatement.setString(7, alumno.getCalle());
             miStatement.setInt(8, alumno.getNumero());
             miStatement.setInt(9, alumno.getCodigoPostal());
-            miStatement.executeQuery();
+            miStatement.executeUpdate();
             miConexion.close();
         } catch (SQLException ex) {
             Logger.getLogger(ModeloImpl.class.getName()).log(Level.SEVERE, null, ex);

@@ -71,4 +71,14 @@ public class ControladorImpl implements Controlador{
     public AlumnoVO obtenerDatosAlumnoCon(String dni) {
         return alumnoDAO.read(dni);    
     }
+
+    @Override
+    public void updateAlumnoCon(AlumnoVO alumno) {
+        alumnoDAO.update(alumno);
+    }
+
+    @Override
+    public void createAlumnoCon(AlumnoVO alumno) {
+        alumnoDAO.create(alumno);
+    }
 }
